@@ -8,12 +8,9 @@ st.title("📘 Grade Calculator (4.0 GPA Scale)")
 if "subject_count" not in st.session_state:
     st.session_state.subject_count = 1
 
-# Add Subject Button
-if st.button("➕ Add Another Subject"):
-    st.session_state.subject_count += 1
+st.markdown("### 📥 Enter Subject Grades and Credits")
 
 # Collect inputs
-st.markdown("### 📥 Enter Subject Grades and Credits")
 subjects = []
 for i in range(st.session_state.subject_count):
     col1, col2, col3 = st.columns([3, 2, 2])
@@ -27,8 +24,12 @@ for i in range(st.session_state.subject_count):
     if name:
         subjects.append({"name": name, "grade": grade, "weight": weight})
 
-# GPA Calculation
-if st.button("🎓 Calculate GPA"):
+# ✅ Button now BELOW inputs
+if st.button("➕ Add Another Subject", key="add_subject"):
+    st.session_state.subject_count += 1
+
+# GPA Calculation Button
+if st.button("🎓 Calculate GPA", key="calc_gpa"):
     if subjects:
         total_weight = sum(s["weight"] for s in subjects)
         total_score = sum(s["grade"] * s["weight"] for s in subjects)
@@ -36,9 +37,9 @@ if st.button("🎓 Calculate GPA"):
             gpa = total_score / total_weight
             st.success(f"✅ Your GPA is: **{gpa:.2f}**")
         else:
-            st.error("Total credit cannot be zero.")
+            st.error("⚠️ Total credit cannot be zero.")
     else:
-        st.warning("Please enter at least one subject.")
+        st.warning("⚠️ Please enter at least one subject.")
 
 # Show Table
 if subjects:
